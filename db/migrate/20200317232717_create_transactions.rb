@@ -5,6 +5,8 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
       t.string :credit_card_expiration_date
       t.string :result
       t.references :invoice, foreign_key: true
+
+      t.timestamps
     end
   end
 end
