@@ -1,4 +1,5 @@
 require 'csv'
+
 desc "Import customer from csv file"
   task :import => [:environment] do
    file = "db/data/customers.csv"
@@ -47,6 +48,7 @@ desc "Import item from csv file"
     CSV.foreach(file, headers: true) do |row|
       item_hash = row.to_hash
       item = Item.where(id: item_hash["id"])
+      item_hash["unit_price"] = item_hash["unit_price"].to_f / 100
       if item.count == 1
         item.first.update_attributes(item_hash)
       else
@@ -75,6 +77,7 @@ desc "Import invoice_item from csv file"
     CSV.foreach(file, headers: true) do |row|
       invoice_item_hash = row.to_hash
       invoice_item = InvoiceItem.where(id: invoice_item_hash["id"])
+      invoice_item_hash["unit_price"] = invoice_item_hash["unit_price"].to_f / 100
       if invoice_item.count == 1
         invoice_item.first.update_attributes(invoice_item_hash)
       else
